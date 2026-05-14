@@ -2,6 +2,11 @@
 
 A Flask-based web application for managing student achievements across departments. It provides role-based workflows for students, teachers, and administrators, including certificate upload and achievement analytics.
 
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/Eswaramuthu/Achievement-Management-System)
+[![Python](https://img.shields.io/badge/Python-3.8+-green?logo=python)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-2.0+-lightgrey?logo=flask)](https://flask.palletsprojects.com/)
+[![License](https://img.shields.io/badge/License-Academic-orange)]()
+
 ## Highlights
 - Centralized achievement records with category-specific metadata
 - Role-based access for `student`, `teacher`, and `admin`
@@ -118,6 +123,48 @@ Browser (Student / Teacher / Admin)
                  - achievements
                  - departments
                  - achievement_categories
+```
+
+## Workflow Diagram
+```text
+Student/Teacher/Admin opens web app
+                |
+                v
+         Login or Register
+                |
+                v
+     Role-based dashboard rendered
+                |
+      +---------+----------+
+      |                    |
+      v                    v
+Teacher submits        Student views
+achievement + file     achievements/profile
+      |                    |
+      v                    v
+Certificate processed   Filter/search analytics
+(OCR + parse + hash)         |
+      |                    |
+      +---------+----------+
+                |
+                v
+         SQLite data updated
+                |
+                v
+    Admin reviews users/departments/categories
+```
+
+## Role Workflow (Sequence)
+```text
+Teacher -> /teacher (login)
+Teacher -> /submit_achievements (GET form)
+Teacher -> /submit_achievements (POST record + certificate)
+App -> certificate_service.py (OCR + parser + SHA-256)
+App -> ams.db (insert achievement)
+Student -> /student-dashboard (view stats)
+Student -> /student-achievements (view records)
+Admin -> /admin/users (approve users)
+Admin -> /admin/departments and /admin/categories (manage masters)
 ```
 
 ## API-Style Route Table
